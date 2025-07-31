@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Complaints</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 40px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        #goHome {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+        }
+        #goHome h2 {
+            margin: 0;
+            font-size: 1em;
+        }
+        #goHome a {
+            text-decoration: none;
+            color: #2980b9;
+            font-weight: bold;
+        }
+        #goHome a:hover {
+            text-decoration: underline;
+        }
+        #complaintsList {
+            max-width: 800px;
+            margin: 0 auto;
+            margin-top: 60px;
+        }
+        .complaint-container {
+            background-color: #ffffff;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+        .complaint-container:hover {
+            transform: scale(1.01);
+        }
+        .complaint-header {
+            font-weight: 600;
+            font-size: 1.2em;
+            color: #2980b9;
+        }
+        .complaint-email {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        .complaint-text {
+            margin-top: 10px;
+            line-height: 1.5;
+        }
+        .complaint-date {
+            margin-top: 15px;
+            font-size: 0.85em;
+            color: #95a5a6;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="goHome">
+        <h2><a href="/home">← Go Home</a></h2>
+    </div>
+
+    <h1>Submitted Complaints</h1>
+    <div id="complaintsList"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const container = document.getElementById('complaintsList');
+            
+            try {
+                const response = await fetch('/api/complaints');
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                const complaints = await response.json();
+                
+                if (!complaints || complaints.length === 0) {
+                    container.innerHTML = '<p class="no-complaints">No complaints found.</p>';
+                    return;
+                }
+                
+                container.innerHTML = ''; // Clear loading message
+                
+                complaints.forEach(complaint => {
+                    const complaintDiv = document.createElement('div');
+                    complaintDiv.className = 'complaint-container';
+                    
+                    // Format the date from your schema's 'date' field
+                    let formattedDate = 'Date not available';
+                    try {
+                        if (complaint.date) {
+                            const dateObj = new Date(complaint.date);
+                            if (!isNaN(dateObj)) {
+                                formattedDate = dateObj.toLocaleString('en-US', {
+                                    weekday: 'short',
+                                    year: 'numeric',
+                                    month: 'short',
+                                    day: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                });
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Date formatting error:', e);
+                    }
+                    
+                    complaintDiv.innerHTML = `
+                        <div class="complaint-header">${complaint.name || 'Anonymous'}</div>
+                        <div class="complaint-email">${complaint.email || 'No email provided'}</div>
+                        <div class="complaint-text">${complaint.complaint || 'No details provided'}</div>
+                        <div class="complaint-date">Submitted: ${formattedDate}</div>
+                    `;
+                    container.appendChild(complaintDiv);
+                });
+                
+            } catch (error) {
+                console.error('Fetch error:', error);
+                container.innerHTML = `
+                    <div class="error-message">
+                        <strong>Error loading complaints</strong>
+                        <p>${error.message}</p>
+                        <p>Please refresh the page or try again later.</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

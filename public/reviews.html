@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quick Hire - Reviews</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* General Body Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background-color: #f9fafb;
+  color: #333;
+}
+header {
+  background-color: #10da3c;
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 60px;
+}
+
+header:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+/* Logo */
+.logo h1 {
+  font-size: 1.8rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.logo h1:hover {
+  transform: scale(1.05);
+  color: #caffd6;
+}
+
+/* Nav */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.2rem;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #eaffef;
+  text-decoration: underline;
+  transform: translateY(-2px);
+}
+
+nav a:active {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(0.96);
+}
+
+/* Adjust for content padding under fixed header */
+main {
+  padding-top: 100px;
+}
+
+/* Section Styles */
+section {
+  max-width: 800px;
+  margin: 40px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  color: #2E8B57;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #555;
+}
+
+input, textarea {
+  margin-bottom: 20px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #4CAF50;
+  background-color: white;
+}
+
+.btn {
+  padding: 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: #45a049;
+  transform: translateY(-3px);
+}
+
+.btn:active {
+  background-color: #388E3C;
+  transform: translateY(1px);
+}
+
+#response-message {
+  text-align: center;
+  font-weight: bold;
+  color: #4CAF50;
+  margin-top: 15px;
+}
+
+/* Review display styles */
+.review {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.review p {
+  margin: 5px 0;
+}
+
+.review strong {
+  color: #2E8B57;
+}
+
+.review .rating {
+  color: #FFD700;
+  font-size: 1.2rem;
+}
+
+/* Footer Styles */
+footer {
+  margin-top: 40px;
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  margin-bottom: 10px;
+}
+
+footer ul li {
+  margin: 0;
+}
+
+footer ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+footer ul li a:hover {
+    color: #17c932;
+  transform: scale(1.05);
+  text-decoration: underline;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  nav ul {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .review {
+    padding: 15px;
+  }
+
+  .btn {
+    font-size: 14px;
+  }
+
+  section {
+    padding: 20px;
+  }
+}
+
+.logout-button {
+    background-color: #f44336; /* Red */
+    color: white;
+    border: none;
+    border-radius: 6px;
+     padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 1000;
+    }
+    .logout-button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+.logout-button:active {
+  background-color: #c62828;
+  transform: scale(0.96);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">
+      <h1>Quick Hire</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="complaints.html">Complaints</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li>
+            <button class="logout-button" onclick="logout()">Logout</button>
+          </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="reviews-form">
+      <h2>Submit Your Review</h2>
+      <form id="review-form">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Your Email</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="review">Your Review</label>
+        <textarea id="review" name="review" rows="5" required></textarea>
+
+        <label for="rating">Rating (1-5)</label>
+        <input type="number" id="rating" name="rating" min="1" max="5" required>
+
+        <button type="submit" class="btn">Submit Review</button>
+      </form>
+      <p id="response-message"></p>
+    </section>
+
+    <section class="reviews-display">
+      <h2>Customer Reviews</h2>
+      <div id="reviews-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    <ul>
+      <li><a href="complaints.html">About Us</a></li>
+      <li><a href="terms.html">Terms & Conditions</a></li>
+      <li><a href="unauthorized.html">Privacy Policy</a></li>
+    </ul>
+  </footer>
+  <script>
+    document.getElementById('review-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const review = document.getElementById('review').value;
+      const rating = document.getElementById('rating').value;
+
+      const reviewData = { name, email, review, rating };
+
+      fetch('http://localhost:3000/api/reviews', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(reviewData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('response-message').textContent = data.message || data.error;
+        document.getElementById('review-form').reset();
+        fetchReviews();
+      })
+      .catch(() => {
+        document.getElementById('response-message').textContent = 'Error submitting review. Please try again later.';
+      });
+    });
+
+    function fetchReviews() {
+      fetch('http://localhost:3000/api/reviews')
+        .then(response => response.json())
+        .then(reviews => {
+          const reviewsList = document.getElementById('reviews-list');
+          reviewsList.innerHTML = '';
+
+          if (reviews.length === 0) {
+            reviewsList.innerHTML = '<p>No reviews yet. Be the first to leave a review!</p>';
+          } else {
+            reviews.forEach(review => {
+              const reviewElement = document.createElement('div');
+              reviewElement.classList.add('review');
+
+              reviewElement.innerHTML = `
+                <p><strong>${review.name}</strong> (${review.rating} stars)</p>
+                <p>${review.review}</p>
+                <p><em>Submitted on: ${new Date(review.date).toLocaleString()}</em></p>
+              `;
+
+              reviewsList.appendChild(reviewElement);
+            });
+          }
+        })
+        .catch(() => {
+          document.getElementById('reviews-list').innerHTML = '<p>Unable to load reviews at the moment.</p>';
+        });
+    }
+
+    window.onload = fetchReviews;
+      //logout
+      function logout() {
+      fetch('/api/logout').then(() => window.location.href = 'auth.html');
+      }
+  </script>
+</body>
+</html>

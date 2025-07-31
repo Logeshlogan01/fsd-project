@@ -1,0 +1,231 @@
+<!-- Save as public/contact.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quick Hire - Contact Us</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #f7f9fc;
+  color: #333;
+}
+
+/* Header Styles */
+header {
+  background-color: #10da3c;
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+header:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+/* Logo */
+.logo h1 {
+  font-size: 1.8rem;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.logo h1:hover {
+  transform: scale(1.05);
+  color: #caffd6;
+}
+
+/* Nav */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.2rem;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #eaffef;
+  text-decoration: underline;
+  transform: translateY(-2px);
+}
+
+nav a:active {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: scale(0.96);
+}
+
+/* Contact Info Section */
+.contact-info {
+  max-width: 600px;
+  margin: 3rem auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.contact-info:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.contact-info h2 {
+  color: #17c932;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
+  transition: color 0.3s ease;
+}
+
+.contact-info h2:hover {
+  color: #0fa82d;
+}
+
+.contact-info p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Footer Styles */
+footer {
+    margin-top: 40px;
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+}
+
+footer ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+footer a {
+  text-decoration: none;
+  color: #fcfef8;
+  font-weight: 500;
+  transition: color 0.3s, transform 0.3s;
+}
+
+footer a:hover {
+  color: #17c932;
+  transform: scale(1.05);
+  text-decoration: underline;
+}
+
+footer p {
+  color: #faf7f7;
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .contact-info {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+}
+.logout-button {
+    background-color: #f44336; /* Red */
+    color: white;
+    border: none;
+    border-radius: 6px;
+     padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 1000;
+    }
+    .logout-button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+.logout-button:active {
+  background-color: #c62828;
+  transform: scale(0.96);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+ </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>Quick Hire</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="complaints.html">Complaints</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li>
+            <button class="logout-button" onclick="logout()">Logout</button>
+          </li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="contact-info">
+    <h2>Contact Information</h2>
+    <p>If you have any questions, feel free to reach  us!</p>
+    <p><strong>Email:</strong> team8@gmail.com</p>
+    <p><strong>Phone:</strong> (+91) 7540050874</p>
+    <p><strong>Address:</strong> 143,  Raj Street, Karur, Tamil Nadu</p>
+  </section>
+
+  <footer>
+    <ul>
+      <li><a href="contact.html">About Us</a></li>
+      <li><a href="terms.html">Terms & Conditions</a></li>
+      <li><a href="unauthorized.html">Privacy Policy</a></li>
+    </ul>
+  </footer>
+  <script>
+     //logout
+     function logout() {
+      fetch('/api/logout').then(() => window.location.href = 'auth.html');
+    }
+  </script>
+</body>
+</html>

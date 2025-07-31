@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Your Service</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<style>
+ /* Reset & Base Layout */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #1f1c2c, #928dab);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Form Container */
+form {
+  background-color: #2c2c54;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+  width: 100%;
+  max-width: 420px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Heading */
+h1 {
+  text-align: center;
+  color: #ffdd59;
+  font-size: 28px;
+  margin-bottom: 25px;
+}
+h2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #4f83c7;
+  font-size: 25px;
+  margin: 0;
+  padding: 20px; /* Optional: for spacing from edges */
+}
+
+/* Form Group */
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+label {
+  font-weight: bold;
+  color: #f7f1e3;
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Input Fields */
+input[type="text"],
+input[type="tel"] {
+  width: 100%;
+  padding: 10px 12px 10px 38px;
+  border: none;
+  border-radius: 6px;
+  background-color: #dcdde1;
+  color: #2f3640;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  outline: none;
+  box-shadow: 0 0 5px #ffdd59;
+  background-color: #f5f6fa;
+}
+
+/* Icons in Inputs */
+.form-group i {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-10%);
+  color: #2c2c54;
+  font-size: 14px;
+}
+
+/* Submit Button */
+button[type="submit"] {
+  width: 100%;
+  background-color: #ffdd59;
+  color: #2c2c54;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ffd32a;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  form {
+    padding: 25px 20px;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+
+  .form-group i {
+    font-size: 13px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+  <h1> Add Your Service</h1><br><br>
+  <h2><a href="/home">GO HOME</a></h2>
+
+  <form id="serviceForm" method="POST" action="/add-service">
+
+    <div class="form-group">
+      <label for="name">Your Name:</label>
+      <i class="fas fa-user"></i>
+      <input type="text" id="name" name="name" required />
+    </div>
+  
+    <div class="form-group">
+      <label for="number">Phone Number:</label>
+      <i class="fas fa-phone"></i>
+      <input type="tel" id="number" name="number" required pattern="[0-9]{10}" />
+    </div>
+  
+    <div class="form-group">
+      <label for="service">Service Offered:</label>
+      <i class="fas fa-briefcase"></i>
+      <input type="text" id="service" name="service" required />
+    </div>
+  
+    <div class="form-group">
+      <label for="location">Location:</label>
+      <i class="fas fa-map-marker-alt"></i>
+      <input type="text" id="location" name="location" required />
+    </div>
+  
+    <button type="submit">Submit</button>
+  </form>
+  <script>
+    // Optional: Handle form submission via JavaScript (if using fetch instead of default form POST)
+    
+    document.getElementById('serviceForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const formData = {
+        name: document.getElementById('name').value,
+        number: document.getElementById('number').value,
+        service: document.getElementById('service').value,
+        location: document.getElementById('location').value,
+      };
+
+      const response = await fetch('/add-service', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+      alert(result.message || 'Service submitted!');
+      window.location.href = '/home';
+
+    });
+    
+  </script>
+</body>
+</html>
+

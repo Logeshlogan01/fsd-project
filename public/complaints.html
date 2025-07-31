@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quick Hire - Complaints</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+   /* General reset and font setup */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f7f9fc;
+  color: #333;
+  line-height: 1.6;
+  padding-top: 80px; /* Prevent content under fixed header */
+}
+
+/* Header Styles */
+header {
+  background-color: #2f80ed;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+header:hover {
+  background-color: #2563c8;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Logo */
+.logo h1 {
+  font-size: 1.8rem;
+  transition: transform 0.3s ease-in-out, color 0.3s ease;
+}
+
+.logo h1:hover {
+  transform: scale(1.05);
+  color: #e0f0ff;
+}
+
+/* Navigation */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease, color 0.3s ease;
+}
+
+nav a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #f0faff;
+  transform: scale(1.05);
+}
+
+nav a:active {
+  background-color: rgba(0, 0, 0, 0.15);
+  transform: scale(0.95);
+}
+
+/* Complaints Form */
+.complaints-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #ddd;
+}
+
+.complaints-form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #2f80ed;
+  font-size: 2rem;
+}
+
+form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #555;
+}
+
+form input,
+form textarea {
+  width: 100%;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #f9f9f9;
+  transition: border 0.3s ease, background-color 0.3s ease;
+}
+
+form input:focus,
+form textarea:focus {
+  outline: none;
+  border-color: #2f80ed;
+  background-color: #fff;
+}
+
+/* Button */
+.btn {
+  display: inline-block;
+  background-color: #2f80ed;
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: #2563c8;
+  transform: translateY(-3px);
+}
+
+.btn:active {
+  background-color: #1e5bb5;
+  transform: translateY(1px);
+}
+
+/* Response Message */
+#response-message {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  color: green;
+}
+
+/* Footer */
+footer {
+  margin-top: 40px;
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+}
+
+footer ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+footer a {
+  text-decoration: none;
+  color: #fcfef8;
+  font-weight: 500;
+  transition: color 0.3s, transform 0.3s;
+}
+
+footer a:hover {
+  color: #2563c8;
+  transform: scale(1.05);
+  text-decoration: underline;
+}
+
+footer p {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .complaints-form {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .btn {
+    font-size: 0.95rem;
+  }
+
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1rem;
+  }
+
+  nav {
+    width: 100%;
+  }
+
+  nav ul {
+    width: 100%;
+    align-items: flex-start;
+  }
+}
+.logout-button {
+    background-color: #f44336; /* Red */
+    color: white;
+    border: none;
+    border-radius: 6px;
+     padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 600;
+     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 1000;
+    }
+    .logout-button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+.logout-button:active {
+  background-color: #c62828;
+  transform: scale(0.96);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>Quick Hire</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">INDEX</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="complaints.html">Complaints</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li>
+            <button class="logout-button" onclick="logout()">Logout</button>
+          </li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="complaints-form">
+    <h2>File a Complaint</h2>
+    <form id="complaint-form">
+      <label for="name">Your Name</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">Your Email</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="complaint">Complaint Details</label>
+      <textarea id="complaint" name="complaint" rows="5" required></textarea>
+
+      <button type="submit" class="btn">Submit Complaint</button>
+    </form>
+    <p id="response-message"></p>
+  </section>
+
+  <footer>
+    <ul>
+      <li><a href="contact.html">About Us</a></li>
+      <li><a href="terms.html">Terms & Conditions</a></li>
+      <li><a href="unauthorized.html">Privacy Policy</a></li>
+    </ul>
+</footer>
+  <script>
+    document.getElementById('complaint-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const complaint = document.getElementById('complaint').value;
+
+      const complaintData = { name, email, complaint };
+
+      fetch('http://localhost:3000/api/complaints', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(complaintData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('response-message').textContent = data.message || data.error;
+        document.getElementById('complaint-form').reset();
+      })
+      .catch(() => {
+        document.getElementById('response-message').textContent = 'Error submitting complaint. Please try again later.';
+      });
+    });
+     //logout
+     function logout() {
+      fetch('/api/logout').then(() => window.location.href = 'auth.html');
+    }
+  </script>
+</body>
+</html>

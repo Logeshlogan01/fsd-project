@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Booked Slots</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      padding: 40px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e88e5;
+    }
+
+    h2 {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: #4f83c7;
+      font-size: 25px;
+      margin: 0;
+      padding: 20px; /* Optional: for spacing from edges */
+    }
+
+    table {
+      width: 90%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+
+    th {
+      background-color: #1e88e5;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    .action-cell button {
+      background-color: red;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+
+    .action-cell button:hover {
+      background-color: #e57373;
+    }
+  </style>
+</head>
+<body>
+  <h1>📋 Booked Slots</h1>
+  <h2><a href="/home">HOME</a></h2>
+  
+  <!-- Filter section -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <label>
+      Filter by Service:
+      <select id="serviceFilter">
+        <option value="">All</option>
+        <option value="Plumbing">Plumbing</option>
+        <option value="Cleaning">Cleaning</option>
+        <option value="Electrical">Electrical</option>
+        <option value="Handyman">Handyman</option>
+        <option value="Other">Other</option>
+      </select>
+    </label>
+  
+    <label style="margin-left: 20px;">
+      Filter by Date:
+      <input type="date" id="dateFilter" />
+    </label>
+  
+    <button onclick="applyFilter()">Apply Filter</button>
+  </div>  
+
+  <!-- Export buttons -->
+  <div style="text-align: center; margin-bottom: 20px;">
+    <button onclick="exportToExcel()">📥 Export to Excel</button>
+    <button onclick="exportToPDF()">📄 Export to PDF</button>
+  </div>  
+
+  <!-- Table -->
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th id="phoneHeader">Phone</th>
+        <th>Location</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Service</th>
+        <th id="actionHeader">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="bookingData">
+      <!-- Fetched booking data will appear here -->
+    </tbody>
+  </table>
+
+  <script>
+    let userRole = ''; // Global variable to store user role
+
+    // Global array to store original data
+    let originalData = [];
+
+    // Function to fetch booking data
+    function fetchData() {
+      fetch('/api/bookedslots')
+        .then(res => res.json())
+        .then(data => {
+          originalData = data;  // Save original data for filtering
+          renderTable(data);  // Render initial data
+        })
+        .catch(error => {
+          console.error('Error fetching bookings:', error);
+        });
+    }
+
+    // Function to render the table
+    function renderTable(data) {
+      const tableBody = document.getElementById('bookingData');
+      tableBody.innerHTML = '';  // Clear existing rows
+      data.forEach((booking, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${booking.name}</td>
+          <td class="phone-cell">${booking.phone}</td>
+          <td>${booking.location}</td>
+          <td>${booking.date}</td>
+          <td>${booking.time}</td>
+          <td>${booking.serviceType}</td>
+          <td class="action-cell"></td>
+        `;
+        tableBody.appendChild(row);
+
+        // Conditionally hide phone number and provide delete button for admin
+        if (userRole === 'member') {
+          row.querySelector('.phone-cell').textContent = 'Hidden';
+        }
+
+        if (userRole === 'admin') {
+          const actionCell = row.querySelector('.action-cell');
+          const deleteBtn = document.createElement('button');
+          deleteBtn.textContent = '🗑️ Delete';
+          deleteBtn.onclick = () => deleteBooking(booking._id, row);
+          actionCell.appendChild(deleteBtn);
+        }
+      });
+    }
+
+    // Function to apply filters
+    function applyFilter() {
+      const service = document.getElementById('serviceFilter').value;
+      const date = document.getElementById('dateFilter').value;
+
+      const filtered = originalData.filter(slot => {
+        return (!service || slot.serviceType === service) &&
+               (!date || slot.date === date);
+      });
+
+      renderTable(filtered);  // Re-render table with filtered data
+    }
+
+    // Function to export to Excel
+    function exportToExcel() {
+      const ws = XLSX.utils.json_to_sheet(originalData);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Bookings');
+      XLSX.writeFile(wb, 'booked_slots.xlsx');
+    }
+
+    // Function to export to PDF
+    function exportToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      let y = 10;
+
+      doc.setFontSize(14);
+      doc.text('Booked Slots', 80, y);
+      y += 10;
+
+      originalData.forEach((slot, index) => {
+        const info = `${index + 1}. ${slot.name}, ${slot.phone}, ${slot.time}, ${slot.location}, ${slot.serviceType}`;
+        doc.text(info, 10, y);
+        y += 10;
+      });
+
+      doc.save('booked_slots.pdf');
+    }
+
+    // Function to delete a booking
+    function deleteBooking(id, rowElement) {
+      if (!confirm("Are you sure you want to delete this booking?")) return;
+
+      fetch(`/api/bookings/${id}`, {
+        method: 'DELETE'
+      })
+        .then(res => res.json())
+        .then(response => {
+          if (response.success) {
+            alert('Booking deleted successfully');
+            rowElement.remove();
+          } else {
+            alert('Failed to delete booking');
+          }
+        })
+        .catch(err => {
+          console.error('Delete failed:', err);
+        });
+    }
+
+    // Fetch data when the page loads
+    fetchData();
+
+    // Check user role and toggle export visibility
+    function checkExportAccess() {
+      fetch('/api/checkRole')
+        .then(res => res.json())
+        .then(data => {
+          userRole = data.role;  // Save role
+          // Restrict export buttons for non-admins
+          if (userRole !== 'admin') {
+            document.querySelector('button[onclick="exportToExcel()"]').style.display = 'none';
+            document.querySelector('button[onclick="exportToPDF()"]').style.display = 'none';
+          }
+
+          // Re-render table after role check
+          renderTable(originalData);
+        })
+        .catch(err => {
+          console.error('Role check failed:', err);
+        });
+    }
+
+    // Call the function on load
+    checkExportAccess();
+  </script>
+</body>
+</html>

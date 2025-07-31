@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quick Hire - Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      color: #333;
+      background: url('./callum-hill-oamw52SCGi0-unsplash.jpg') no-repeat center center fixed;
+      background-size: cover;
+    }
+    #welcomeMsg {
+  color: white;
+  font-weight: 600;
+    }
+    .page-wrapper {
+      background-color: rgba(255, 255, 255, 0.85);
+      min-height: 100vh;
+    }
+    header {
+      background-color: rgba(0, 0, 0, 0.5); /* Slightly dark transparent */
+      padding: 10px 0; /* Reduced vertical padding */
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      backdrop-filter: blur(6px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    header .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1400px;
+      height: 70px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header h1 {
+      color: #fff;
+      font-size: 28px;
+      margin: 0;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    nav ul li a:hover,
+    nav ul li a:focus {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    nav ul li a:active {
+      transform: scale(0.97);
+    }
+
+    .services-list {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+
+    .services-list h2 {
+      text-align: center;
+      font-size: 36px;
+      color: #2E8B57;
+    }
+
+    .service-card {
+      background: rgba(255, 255, 255, 0.95);
+      margin: 20px 0;
+      padding: 20px;
+      border-left: 5px solid #4CAF50;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    .service-card:nth-child(2) { border-left-color: #FF9800; }
+    .service-card:nth-child(3) { border-left-color: #2196F3; }
+    .service-card:nth-child(4) { border-left-color: #9C27B0; }
+
+    #dynamic-services {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+
+    .dynamic-card {
+      background: rgba(255, 255, 255, 0.95);
+      color: #000;
+      border-radius: 10px;
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 600px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        gap: 10px;
+      }
+      nav ul li {
+        margin: 0;
+      }
+    }
+    .logout-button {
+      background-color: #f44336; /* Red */
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      z-index: 1000;
+    }
+    .logout-button:hover {
+      background-color: #d32f2f;
+      transform: scale(1.05);
+    }
+    .logout-button:active {
+      background-color: #c62828;
+      transform: scale(0.96);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    footer ul {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+footer ul li {
+  margin: 0 15px;
+}
+
+footer ul li a {
+  color: white;
+  text-decoration: none;
+}
+
+footer ul li a:hover {
+  text-decoration: underline;
+  color: #000;
+}
+
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <header>
+        <div class="header-content">
+          <h1>Quick Hire</h1>
+          <nav>
+            <ul>
+              <li><a href="/home">Home</a></li>
+              <li><a href="services.html">Services</a></li>
+              <li><a href="complaints.html">Complaints</a></li>
+              <li><a href="reviews.html">Reviews</a></li>
+              <li><a href="contact.html">Contact Us</a></li>
+              <li id="welcomeMsg" style="display: none;"></li>
+              <li>
+                <button class="logout-button" onclick="logout()">Logout</button>
+              </li>
+            </ul>
+          </nav>
+        </div>
+    </header>
+    
+    <section class="services-list">
+      <h2>Our Services</h2>
+
+      <div class="service-card">
+        <h3>Home Cleaning</h3>
+        <p>Professional cleaning services for your home. We offer deep cleaning, regular cleaning, and more.</p>
+      </div>
+
+      <div class="service-card">
+        <h3>Plumbing</h3>
+        <p>Get your plumbing issues fixed with ease. Our experts handle everything from leaks to installations.</p>
+      </div>
+
+      <div class="service-card">
+        <h3>Electrical Repairs</h3>
+        <p>From minor repairs to complex electrical work, we have experienced electricians available for all your needs.</p>
+      </div>
+
+      <div class="service-card">
+        <h3>Handyman Services</h3>
+        <p>Repairs, installations, and all sorts of handyman work at your doorstep. No job is too small for us!</p>
+      </div>
+    </section>
+
+    <div id="dynamic-services"></div>
+
+  </div>
+  <footer>
+    <ul>
+      <li><a href="contact.html">About Us</a></li>
+      <li><a href="terms.html">Terms & Conditions</a></li>
+      <li><a href="unauthorized.html">Privacy Policy</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    //welcome session message
+    window.onload = () => {
+      fetch('/api/session')
+        .then(res => res.json())
+        .then(data => {
+          if (data.loggedIn) {
+            document.getElementById('welcomeMsg').style.display = 'inline-block';
+            document.getElementById('welcomeMsg').innerText = `Welcome, ${data.user.username}`;
+          } else {
+            window.location.href = 'auth.html';
+          }
+        });
+    };
+
+    // fetch service
+    fetch('/api/services')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('dynamic-services');
+        if (!data || data.length === 0) {
+          container.innerHTML = "<p style='text-align:center; color: white;'>No services added yet.</p>";
+          return;
+        }
+        data.forEach(service => {
+          const div = document.createElement('div');
+          div.className = "dynamic-card";
+          div.innerHTML = `
+            <h3 style="margin: 0 0 10px; color: #2c3e50;">${service.service}</h3>
+            <p><strong>Provider:</strong> ${service.name}</p>
+           
+            <p><strong>Location:</strong> ${service.location}</p>
+          `;
+          container.appendChild(div);
+        });
+      })
+      .catch(err => {
+        console.error("Error loading services:", err);
+      });
+
+    //logout
+    function logout() {
+      fetch('/api/logout').then(() => window.location.href = 'auth.html');
+    }
+  </script>
+</body>
+</html>

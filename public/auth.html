@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quick Hire - Authentication</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('login page.png') no-repeat center center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #978383;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      width: 360px;
+      transition: 0.3s ease-in-out;
+    }
+
+    .tab-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+    }
+
+    .tab-buttons button {
+      width: 32%;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #e0e7ff;
+      color: #374151;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .tab-buttons button.active {
+      background: #4f46e5;
+      color: #ffffff;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    select {
+      width: 95%;
+      padding: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #f9fafb;
+      transition: 0.2s border-color;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #6366f1;
+      outline: none;
+    }
+
+    button.submit-btn {
+      width: 100%;
+      padding: 12px;
+      background: #4f46e5;
+      border: none;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    button.submit-btn:hover {
+      background: #4338ca;
+    }
+
+    .form {
+      display: none;
+    }
+
+    .form.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="tab-buttons">
+      <button id="loginTab" class="active" onclick="showForm('login')">Login</button>
+      <button id="signupTab" onclick="showForm('signup')">Sign Up</button>
+      <button id="adminSignupTab" onclick="showForm('adminSignup')">Admin Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <div id="loginForm" class="form active">
+      <div class="form-group">
+        <input type="text" id="loginUsername" placeholder="Username" autocomplete="username" required />
+      </div>
+      <div class="form-group">
+        <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password" required />
+      </div>
+      <button class="submit-btn" onclick="login()">Login</button>
+    </div>
+
+    <!-- User/Member Sign-Up Form -->
+    <div id="signupForm" class="form">
+      <div class="form-group">
+        <input type="text" id="signupUsername" placeholder="Username" required />
+      </div>
+      <div class="form-group">
+        <input type="email" id="signupEmail" placeholder="Email" required />
+      </div>
+      <div class="form-group">
+        <input type="password" id="signupPassword" placeholder="Password" required />
+      </div>
+      <div class="form-group">
+        <select id="signupRole" required>
+          <option value="user">User</option>
+          <option value="member">Member</option>
+        </select>
+      </div>
+      <button class="submit-btn" onclick="signUp()">Sign Up</button>
+    </div>
+
+    <!-- Admin Sign-Up Form -->
+    <div id="adminSignupForm" class="form">
+      <div class="form-group">
+        <input type="text" id="adminUsername" placeholder="Username" required />
+      </div>
+      <div class="form-group">
+        <input type="email" id="adminEmail" placeholder="Email" required />
+      </div>
+      <div class="form-group">
+        <input type="password" id="adminPassword" placeholder="Password" required />
+      </div>
+      <div class="form-group">
+        <input type="text" id="adminCode" placeholder="Secret Admin Code" required />
+      </div>
+      <button class="submit-btn" onclick="adminSignUp()">Register as Admin</button>
+    </div>
+  </div>
+
+  <script>
+    // Function to toggle between login, signup, and admin signup forms
+    function showForm(type) {
+      const forms = ['loginForm', 'signupForm', 'adminSignupForm'];
+      const tabs = ['loginTab', 'signupTab', 'adminSignupTab'];
+  
+      forms.forEach(form => document.getElementById(form).classList.remove('active'));
+      tabs.forEach(tab => document.getElementById(tab).classList.remove('active'));
+  
+      document.getElementById(`${type}Form`).classList.add('active');
+      document.getElementById(`${type}Tab`).classList.add('active');
+    }
+  
+    // Function to handle user login
+    async function login() {
+      const username = document.getElementById('loginUsername').value;
+      const password = document.getElementById('loginPassword').value;
+  
+      try {
+        const response = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+  
+        const data = await response.json();
+  
+        if (data.success) {
+          alert("✅ Login successful!");
+          switch (data.role) {
+            case 'admin':
+              window.location.href = '/admin.html';
+              break;
+            case 'member':
+              window.location.href = '/member.html';
+              break;
+            case 'user':
+              window.location.href = '/user.html';
+              break;
+            default:
+              window.location.href = '/';
+          }
+        } else {
+          alert("❌ " + data.message);
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        alert("❌ An error occurred during login.");
+      }
+    }
+  
+    // Function to handle user signup
+    async function signUp() {
+      const username = document.getElementById('signupUsername').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const role = document.getElementById('signupRole').value;
+  
+      try {
+        const response = await fetch('/api/signup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password, role })
+        });
+  
+        const data = await response.json();
+  
+        if (data.success) {
+          alert("✅ Signup successful! Please login.");
+          showForm('login');
+        } else {
+          alert("❌ " + data.message);
+        }
+      } catch (error) {
+        console.error('Signup error:', error);
+        alert("❌ An error occurred during signup.");
+      }
+    }
+  
+    // Function to handle admin signup
+    async function adminSignUp() {
+      const username = document.getElementById('adminUsername').value;
+      const email = document.getElementById('adminEmail').value;
+      const password = document.getElementById('adminPassword').value;
+      const adminCode = document.getElementById('adminCode').value;
+  
+      try {
+        const response = await fetch('/api/admin-register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password, adminCode })
+        });
+  
+        const data = await response.json();
+  
+        if (data.success) {
+          alert('✅ Admin registered successfully!');
+          showForm('login');
+        } else {
+          alert('❌ ' + data.message);
+        }
+      } catch (error) {
+        console.error('Admin registration error:', error);
+        alert('❌ An error occurred during admin registration.');
+      }
+    }
+  </script>  
+</body>
+</html>

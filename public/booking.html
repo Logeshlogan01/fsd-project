@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Booking Page</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      background-color: #ffffff;
+      margin: 50px auto;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #1e88e5;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333333;
+    }
+
+    h2.hm {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: #4f83c7;
+      font-size: 25px;
+      margin: 0;
+      padding: 20px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-top: 15px;
+      margin-bottom: 5px;
+      color: #333;
+      font-weight: 500;
+    }
+
+    input, select {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      margin-top: 25px;
+      padding: 12px;
+      font-size: 18px;
+      background-color: #1e88e5;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #1565c0;
+    }
+  </style>
+</head>
+<body>
+    <div class="container">
+      <h1>Quick Hire</h1>
+      <h2>📅 Book a Service</h2>
+      <h2 class="hm"><a href="user.html">USERHOME</a></h2>
+      
+      <form id="booking-form">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required />
+  
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" required />
+  
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" required />
+  
+        <label for="date">Date</label>
+        <input type="date" id="date" name="date" required />
+  
+        <label for="time">Time Slot</label>
+        <select id="time" name="time" required>
+          <option value="">--Select--</option>
+          <option value="FN">Forenoon (FN)</option>
+          <option value="AN">Afternoon (AN)</option>
+        </select>
+  
+        <label for="serviceType">Type of Work</label>
+        <select id="serviceType" name="serviceType" required>
+          <option value="">--Select--</option>
+          <option value="Plumbing">Plumbing</option>
+          <option value="Cleaning">Cleaning</option>
+          <option value="Electrical">Electrical</option>
+          <option value="Handyman">Handyman</option>
+          <option value="Other">Other</option>
+        </select>
+  
+        <button type="submit">Book Now</button>
+      </form>
+    </div>
+  
+    <script>
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('date').setAttribute('min', today);
+  
+      document.getElementById('booking-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+  
+        const formData = new FormData(this);
+        const bookingData = Object.fromEntries(formData.entries());
+        console.log('Booking data submitted:', bookingData); // Debugging log
+  
+        try {
+          const response = await fetch('/submit-booking', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(bookingData)
+          });
+  
+          const result = await response.json();
+          if (response.ok) {
+            alert(result.message || 'Booking successful! ✅');
+            this.reset();
+            window.location.href = '/user.html';
+          } else {
+            alert(result.message || 'Booking failed ❌');
+          }
+        } catch (error) {
+          console.error('Booking error:', error);
+          alert('Something went wrong while booking.');
+        }
+      });
+    </script>  
+  </body>
+  </html>
